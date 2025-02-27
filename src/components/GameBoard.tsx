@@ -18,7 +18,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ holes, onHoleClick, activeHole, d
 
   const holeSize = {
     easy: 'aspect-square',
-    medium: 'aspect-square scale-75',
+    medium: 'aspect-square scale-[0.6]',
     hard: 'aspect-square scale-75'
   };
 
@@ -51,18 +51,38 @@ const GameBoard: React.FC<GameBoardProps> = ({ holes, onHoleClick, activeHole, d
                 "bg-gray-600 rounded-full animate-bounce transition-transform",
                 ratSize[difficulty]
               )}>
-                {/* Rat appearance with better styling */}
+                {/* Enhanced rat appearance */}
                 <div className="w-full h-full relative bg-gray-500 rounded-full overflow-hidden">
-                  {/* Body */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-gray-400 to-gray-600"></div>
-                  {/* Eyes */}
-                  <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-black rounded-full"></div>
-                  <div className="absolute top-1/4 right-1/4 w-2 h-2 bg-black rounded-full"></div>
-                  {/* Nose */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-2 bg-pink-300 rounded-full"></div>
-                  {/* Ears */}
-                  <div className="absolute -top-1 left-1/4 w-3 h-3 bg-gray-400 rounded-full transform -rotate-45"></div>
-                  <div className="absolute -top-1 right-1/4 w-3 h-3 bg-gray-400 rounded-full transform rotate-45"></div>
+                  {/* Body with fur texture */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-gray-400 via-gray-500 to-gray-600">
+                    <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_50%,_rgba(255,255,255,0.2),_transparent_1px)]"></div>
+                  </div>
+                  
+                  {/* Eyes with shine */}
+                  <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-black rounded-full">
+                    <div className="absolute top-0 right-0 w-1 h-1 bg-white rounded-full opacity-75"></div>
+                  </div>
+                  <div className="absolute top-1/4 right-1/4 w-2 h-2 bg-black rounded-full">
+                    <div className="absolute top-0 right-0 w-1 h-1 bg-white rounded-full opacity-75"></div>
+                  </div>
+                  
+                  {/* Enhanced nose */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <div className="w-3 h-2 bg-pink-300 rounded-full shadow-inner"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-pink-400/30"></div>
+                  </div>
+                  
+                  {/* Enhanced ears with inner detail */}
+                  <div className="absolute -top-1 left-1/4 w-3 h-3 bg-gray-400 rounded-full transform -rotate-45 overflow-hidden">
+                    <div className="absolute inset-[15%] bg-pink-200/50 rounded-full"></div>
+                  </div>
+                  <div className="absolute -top-1 right-1/4 w-3 h-3 bg-gray-400 rounded-full transform rotate-45 overflow-hidden">
+                    <div className="absolute inset-[15%] bg-pink-200/50 rounded-full"></div>
+                  </div>
+                  
+                  {/* Whiskers */}
+                  <div className="absolute top-1/2 left-1/6 w-3 h-px bg-gray-300 transform -rotate-15"></div>
+                  <div className="absolute top-1/2 right-1/6 w-3 h-px bg-gray-300 transform rotate-15"></div>
                 </div>
               </div>
             </div>
