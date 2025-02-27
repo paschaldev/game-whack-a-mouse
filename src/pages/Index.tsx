@@ -3,14 +3,22 @@ import React, { useState, useEffect, useCallback } from 'react';
 import GameBoard from '@/components/GameBoard';
 import ScoreBoard from '@/components/ScoreBoard';
 import GameOver from '@/components/GameOver';
+import LevelSelect from '@/components/LevelSelect';
 import { toast } from 'sonner';
+import type { Difficulty } from '@/components/LevelSelect';
 
 const INITIAL_SPEED = 1500;
 const SPEED_DECREASE_RATE = 0.9;
-const HOLES_COUNT = 9;
+
+const HOLES_COUNT = {
+  easy: 9,
+  medium: 25,
+  hard: 100
+};
 
 const Index = () => {
-  const [holes] = useState<boolean[]>(new Array(HOLES_COUNT).fill(false));
+  const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
+  const [holes, setHoles] = useState<boolean[]>([]);
   const [activeHole, setActiveHole] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [level, setLevel] = useState(1);
@@ -35,7 +43,9 @@ const Index = () => {
         if (newScore % 5 === 0) {
           setLevel(l => l + 1);
           setSpeed(s => s * SPEED_DECREASE_RATE);
-          toast(`Level ${level + 1}!`);
+          toast(`Level ${level + 1}!`, {
+            position: 'bottom-right'
+          });
         }
         return newScore;
       });
@@ -43,20 +53,28 @@ const Index = () => {
     }
   };
 
-  const startNewGame = useCallback(() => {
+  const startNewGame = useCallback((selectedDifficulty: Difficulty = 'easy') => {
+    setDifficulty(selectedDifficulty);
+    setHoles(new Array(HOLES_COUNT[selectedDifficulty]).fill(false));
     setScore(0);
     setLevel(1);
     setSpeed(INITIAL_SPEED);
     setGameOver(false);
     setActiveHole(null);
-    toast('Game Started! Click the rats to score points!');
+    toast('Game Started! Click the rats to score points!', {
+      position: 'bottom-right'
+    });
   }, []);
 
+  const handleDifficultySelect = (selectedDifficulty: Difficulty) => {
+    startNewGame(selectedDifficulty);
+  };
+
   useEffect(() => {
-    if (gameOver) return;
+    if (gameOver || !difficulty) return;
 
     const showRat = () => {
-      const newHole = Math.floor(Math.random() * HOLES_COUNT);
+      const newHole = Math.floor(Math.random() * HOLES_COUNT[difficulty]);
       setActiveHole(newHole);
 
       const hideTimeout = setTimeout(() => {
@@ -75,7 +93,16 @@ const Index = () => {
       clearInterval(moveInterval);
       clearTimeout(initialTimeout);
     };
-  }, [speed, gameOver, score, updateHighScore]);
+  }, [speed, gameOver, score, updateHighScore, difficulty]);
+
+  if (!difficulty) {
+    return (
+      <div className="min-h-screen w-full flex flex-col items-center justify-center gap-8 p-4 bg-gradient-to-b from-gray-50 to-gray-100">
+        <h1 className="text-3xl font-bold text-gray-900">Whack-a-Rat</h1>
+        <LevelSelect onSelect={handleDifficultySelect} />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center gap-8 p-4 bg-gradient-to-b from-gray-50 to-gray-100">
@@ -85,12 +112,13 @@ const Index = () => {
         holes={holes}
         onHoleClick={handleHoleClick}
         activeHole={activeHole}
+        difficulty={difficulty}
       />
       {gameOver && (
         <GameOver
           score={score}
           highScore={highScore}
-          onRestart={startNewGame}
+          onRestart={() => setDifficulty(null)}
         />
       )}
     </div>
