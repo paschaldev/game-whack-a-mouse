@@ -18,13 +18,13 @@ const GameBoard: React.FC<GameBoardProps> = ({ holes, onHoleClick, activeHole, d
 
   const holeSize = {
     easy: 'aspect-square',
-    medium: 'aspect-square scale-90',
+    medium: 'aspect-square scale-75',
     hard: 'aspect-square scale-75'
   };
 
   const ratSize = {
     easy: 'w-4/5 h-4/5',
-    medium: 'w-3/4 h-3/4',
+    medium: 'w-4/5 h-4/5',
     hard: 'w-2/3 h-2/3'
   };
 
