@@ -44,7 +44,7 @@ const Index = () => {
           setLevel(l => l + 1);
           setSpeed(s => s * SPEED_DECREASE_RATE);
           toast(`Level ${level + 1}!`, {
-            position: 'bottom-right'
+            position: 'top-center'
           });
         }
         return newScore;
@@ -62,7 +62,7 @@ const Index = () => {
     setGameOver(false);
     setActiveHole(null);
     toast('Game Started! Click the rats to score points!', {
-      position: 'bottom-right'
+      position: 'top-center'
     });
   }, []);
 
@@ -97,7 +97,7 @@ const Index = () => {
 
   if (!difficulty) {
     return (
-      <div className="min-h-screen w-full flex flex-col items-center justify-center gap-8 p-4 bg-gradient-to-b from-gray-50 to-gray-100">
+      <div className="h-screen w-full flex flex-col items-center justify-center gap-8 p-4 bg-gradient-to-b from-gray-50 to-gray-100">
         <h1 className="text-3xl font-bold text-gray-900">Whack-a-Rat</h1>
         <LevelSelect onSelect={handleDifficultySelect} />
       </div>
@@ -105,7 +105,7 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center gap-8 p-4 bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="h-screen w-full flex flex-col items-center justify-center gap-4 p-4 bg-gradient-to-b from-gray-50 to-gray-100">
       <h1 className="text-3xl font-bold text-gray-900">Whack-a-Rat</h1>
       <ScoreBoard score={score} level={level} highScore={highScore} />
       <GameBoard

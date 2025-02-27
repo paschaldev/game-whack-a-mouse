@@ -30,7 +30,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ holes, onHoleClick, activeHole, d
 
   return (
     <div className={cn(
-      "grid gap-2 w-full max-w-[800px] aspect-square p-4 bg-gray-50 rounded-xl shadow-lg",
+      "grid gap-2 w-full h-full max-h-[calc(100vh-16rem)] aspect-square p-4 bg-gray-50 rounded-xl shadow-lg",
       gridConfig[difficulty]
     )}>
       {holes.map((_, index) => (
